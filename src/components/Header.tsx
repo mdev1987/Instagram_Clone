@@ -6,7 +6,7 @@ import profile from '../../public/assets/images/profile.jpg'
 
 export default function Header() {
     return (
-        <div>
+        <header className='shadow-sm border-b sticky top-0 bg-white z-30'>
             <div className="flex items-center justify-between max-w-6xl mt-1 mx-4 xl:mx-auto">
                 <div className="h-18 w-36 relative hidden lg:inline-grid cursor-pointer">
                     <Image src={InstagramWordmark}
@@ -36,6 +36,6 @@ export default function Header() {
                     <Image src={profile} alt='profile' className='h-10 w-10 rounded-full cursor-pointer' />
                 </div>
             </div>
-        </div>
+        </header>
     )
 }
