@@ -1,12 +1,13 @@
 import Image from 'next/image'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { HomeIcon, MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/20/solid'
 import Instagram from '../../public/assets/images/Instagram.svg'
 import InstagramWordmark from '../../public/assets/images/InstagramWordmark.svg'
+import profile from '../../public/assets/images/profile.jpg'
 
 export default function Header() {
     return (
         <div>
-            <div className="flex items-center justify-between max-w-6xl mt-1">
+            <div className="flex items-center justify-between max-w-6xl mt-1 mx-4 xl:mx-auto">
                 <div className="h-18 w-36 relative hidden lg:inline-grid cursor-pointer">
                     <Image src={InstagramWordmark}
                         className="object-contain"
@@ -27,7 +28,13 @@ export default function Header() {
                      focus:ring-black focus:border-black" placeholder="Search" />
                 </div>
 
-                <h1>Right Side</h1>
+                <div className="flex items-center gap-4">
+                    <HomeIcon className='h-6 hidden md:inline-flex cursor-pointer hover:scale-110 
+                                            transition-transform duration-200 ease-out' />
+                    <PlusCircleIcon className='h-6 cursor-pointer hover:scale-110 
+                                            transition-transform duration-200 ease-out' />
+                    <Image src={profile} alt='profile' className='h-10 w-10 rounded-full cursor-pointer' />
+                </div>
             </div>
         </div>
     )
