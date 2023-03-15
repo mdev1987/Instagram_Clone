@@ -3,12 +3,13 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Header from '@/components/Header'
+import Feeds from '@/components/Feeds'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <>
+    <div className='bg-gray-50 min-h-screen'>
       <Head>
         <title>Instagram Clone</title>
         <meta name="description" content="Instagram Clone" />
@@ -17,11 +18,8 @@ export default function Home() {
       </Head>
 
       <Header />
-
-      {/* Feed */}
-
-
+      <Feeds />
       {/* Modal */}
-    </>
+    </div>
   )
 }
