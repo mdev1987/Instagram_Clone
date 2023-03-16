@@ -1,4 +1,5 @@
 import minifaker from 'minifaker'
+import 'minifaker/locales/en'
 import { useEffect, useState } from 'react';
 import Post from './Post'
 

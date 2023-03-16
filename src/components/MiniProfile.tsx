@@ -6,6 +6,7 @@ export default function MiniProfile() {
         <div className='flex justify-between items-center mt-14 ml-10'>
             <Image src={profile} alt="mdev1987"
                 height={65} width={65}
+                draggable={false}
                 className="h-16 w-16 rounded-full p-[2px]"
                 placeholder={'blur'} />
             <div className='flex-1 ml-4'>
