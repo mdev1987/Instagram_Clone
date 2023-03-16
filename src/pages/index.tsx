@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Header from '@/components/Header'
 import Feeds from '@/components/Feeds'
-import Posts from '@/components/Posts'
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
 
       <Header />
       <Feeds />
-      <Posts />
     </div>
   )
 }
