@@ -22,8 +22,13 @@ export default function Stories() {
 
     }, [])
     return (
-        <div>{storyUsers.map((story: any) =>
-            (<Story key={story.id} {...story} />))}
+        <div className='flex gap-2 p-6
+         bg-white mt-8 items-center
+         justify-center rounded-sm   
+         scrollbar-none       
+         border-gray-200 overflow-x-scroll'>
+            {storyUsers.map((story: any) =>
+                (<Story key={story.id} {...story} />))}
         </div>
     )
 }

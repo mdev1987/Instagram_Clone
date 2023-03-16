@@ -33,7 +33,7 @@ export default function Header() {
                                             transition-transform duration-200 ease-out' />
                     <PlusCircleIcon className='h-6 cursor-pointer hover:scale-110 
                                             transition-transform duration-200 ease-out' />
-                    <Image src={profile} alt='profile' className='h-10 w-10 rounded-full cursor-pointer' />
+                    <Image draggable={false} src={profile} alt='profile' className='h-10 w-10 rounded-full cursor-pointer' />
                 </div>
             </div>
         </header>
