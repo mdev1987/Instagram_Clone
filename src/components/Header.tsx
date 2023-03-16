@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { HomeIcon, MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/20/solid'
+import { HomeIcon, MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import Instagram from '../../public/assets/images/Instagram.svg'
 import InstagramWordmark from '../../public/assets/images/InstagramWordmark.svg'
 import profile from '../../public/assets/images/profile.jpg'
