@@ -5,9 +5,12 @@ import InstagramWordmark from '../../public/assets/images/InstagramWordmark.svg'
 import profile from '../../public/assets/images/profile.jpg'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import ProfileAvatar from './ProfileAvatar'
+import { useRecoilState } from 'recoil'
+import { modalState } from '@/atom/modalAtom'
 
 export default function Header() {
     const { data: session } = useSession();
+    const [uploadModal, setUploadModal] = useRecoilState(modalState);
     return (
         <header className='shadow-sm border-b sticky top-0 bg-white z-30'>
             <div className="flex items-center justify-between max-w-6xl mt-1 mx-4 xl:mx-auto">
@@ -36,7 +39,9 @@ export default function Header() {
                                             transition-transform duration-200 ease-out' />
                     {session ? (
                         <>
-                            <PlusCircleIcon className='h-6 cursor-pointer hover:scale-110 
+                            <PlusCircleIcon
+                                onClick={() => setUploadModal(true)}
+                                className='h-6 cursor-pointer hover:scale-110 
                                             transition-transform duration-200 ease-out' />
                             {session.user?.name ? (
                                 <Image onClick={() => signOut()}
