@@ -3,8 +3,11 @@ import { HomeIcon, MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/
 import Instagram from '../../public/assets/images/Instagram.svg'
 import InstagramWordmark from '../../public/assets/images/InstagramWordmark.svg'
 import profile from '../../public/assets/images/profile.jpg'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import ProfileAvatar from './ProfileAvatar'
 
 export default function Header() {
+    const { data: session } = useSession();
     return (
         <header className='shadow-sm border-b sticky top-0 bg-white z-30'>
             <div className="flex items-center justify-between max-w-6xl mt-1 mx-4 xl:mx-auto">
@@ -31,9 +34,28 @@ export default function Header() {
                 <div className="flex items-center gap-4">
                     <HomeIcon className='h-6 hidden md:inline-flex cursor-pointer hover:scale-110 
                                             transition-transform duration-200 ease-out' />
-                    <PlusCircleIcon className='h-6 cursor-pointer hover:scale-110 
+                    {session ? (
+                        <>
+                            <PlusCircleIcon className='h-6 cursor-pointer hover:scale-110 
                                             transition-transform duration-200 ease-out' />
-                    <Image draggable={false} src={profile} alt='profile' className='h-10 w-10 rounded-full cursor-pointer' />
+                            {session.user?.name ? (
+                                <Image onClick={() => signOut()}
+                                    draggable={false}
+                                    src={session.user?.image || profile}
+                                    width={50} height={50}
+                                    alt='profile'
+                                    className='h-10 w-10 rounded-full cursor-pointer' />
+                            ) : (
+                                <ProfileAvatar onClick={() => signOut()}
+                                    name={session.user?.name || ''} />
+                            )}
+
+                        </>
+                    ) : (<button className='border rounded-md
+                     bg-gray-50 hover:bg-gray-100 p-2'
+                        onClick={() => signIn()}>
+                        Sign in
+                    </button>)}
                 </div>
             </div>
         </header>

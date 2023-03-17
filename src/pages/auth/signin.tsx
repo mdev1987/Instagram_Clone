@@ -1,5 +1,4 @@
 import Header from "@/components/Header"
-import { GetServerSideProps } from "next"
 import { BuiltInProviderType } from "next-auth/providers"
 import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-auth/react'
 import Image from "next/image"
@@ -33,7 +32,7 @@ export default function signin({ providers }: PropsType) {
                                 This app is created for learning purpose
                             </p>
                             <button onClick={() => signIn(provider.id,
-                                { callbackUrl: '/' })}
+                                { callbackUrl: '/', redirect: true })}
                                 className="bg-purple-500 rounded-lg 
                             p-3 text-white hover:bg-purple-600">
                                 Sign in with {provider.name}
