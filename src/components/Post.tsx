@@ -10,7 +10,7 @@ export default function Post({ profile, image, username, caption }: PostType) {
                     className="h-12 w-12 rounded-full object-cover p-1 border mr-3"
                     src={profile} width={150} height={150} alt={username} />
                 <p className="font-bold flex-1">{username}</p>
-                <EllipsisVerticalIcon className="h-5" />
+                <EllipsisVerticalIcon className="h-5 cursor-pointer" />
             </div>
             <div>
                 <Image src={image}
