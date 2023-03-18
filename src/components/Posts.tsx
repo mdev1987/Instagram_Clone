@@ -23,6 +23,7 @@ export default function Posts() {
                 .map(post => (
                     <Post
                         key={post.id}
+                        id={post.id}
                         profile={post.data().profileImg}
                         username={post.data().name}
                         caption={post.data().caption}
