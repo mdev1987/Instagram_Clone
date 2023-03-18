@@ -5,8 +5,15 @@ const nextConfig = {
     domains: [
       'i.pravatar.cc',
       'picsum.photos',
-      'lh3.googleusercontent.com',]
-  }
+      'lh3.googleusercontent.com',
+      'firebasestorage.googleapis.com'],
+    // remotePatterns: [
+    //   {
+    //     hostname: '**',
+    //   }
+    // ]
+  },
+
 }
 
 module.exports = nextConfig

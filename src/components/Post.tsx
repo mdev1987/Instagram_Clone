@@ -1,24 +1,31 @@
 import Image from "next/image";
 import { BookmarkIcon, ChatBubbleOvalLeftEllipsisIcon, EllipsisVerticalIcon, FaceSmileIcon, HeartIcon } from '@heroicons/react/24/outline';
-import { PostType } from "./Posts";
+
+type PostType = {
+    username: string;
+    profile: string;
+    image: string;
+    caption: string;
+}
 
 export default function Post({ profile, image, username, caption }: PostType) {
     return (
         <div className="bg-white my-7 border rounded-md">
             <div className="flex items-center p-5">
                 <Image draggable={false}
-                    className="h-12 w-12 rounded-full object-cover p-1 border mr-3"
-                    src={profile} width={150} height={150} alt={username} />
+                    className="h-12 w-12 rounded-full 
+                    object-cover p-1 border mr-3"
+                    src={profile} width={150} height={150}
+                    alt={username} />
                 <p className="font-bold flex-1">{username}</p>
                 <EllipsisVerticalIcon className="h-5 cursor-pointer" />
             </div>
             <div>
-                <Image src={image}
+                <img src={image}
                     draggable={false}
                     className="object-cover w-full"
                     width={500} height={500}
                     alt={caption} />
-
                 <div className="flex justify-between px-4 pt-4">
                     <div className="flex gap-4">
                         <HeartIcon className="btn" />
