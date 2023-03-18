@@ -8,12 +8,15 @@ import Post from './Post'
 export default function Posts() {
     const [posts, setPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
     useEffect(() => {
-        const unsubscriber = onSnapshot(query(collection(db, 'posts'), orderBy('timestamp', 'desc')), (snapshot) => {
-            setPosts(snapshot.docs)
+        const unsubscriber = onSnapshot(query(
+            collection(db, 'posts'),
+            orderBy('timestamp', 'desc')),
+            (snapshot) => {
+                setPosts(snapshot.docs)
 
-        }, (error) => console.error(error));
+            }, (error) => console.error(error));
         return () => unsubscriber();
-    }, [])
+    }, [db])
     return (
         <div>
             {posts

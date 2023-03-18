@@ -7,9 +7,11 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import ProfileAvatar from './ProfileAvatar'
 import { useRecoilState } from 'recoil'
 import { modalState } from '@/atom/modalAtom'
+import { useRouter } from 'next/router'
 
 export default function Header() {
     const { data: session } = useSession();
+    const router = useRouter();
     const [uploadModal, setUploadModal] = useRecoilState(modalState);
     return (
         <header className='shadow-sm border-b sticky top-0 bg-white z-30'>
@@ -17,11 +19,13 @@ export default function Header() {
                 <div className="h-18 w-36 relative hidden lg:inline-grid cursor-pointer">
                     <Image src={InstagramWordmark}
                         className="object-contain"
+                        onClick={() => router.push('/')}
                         alt="Instagram" />
                 </div>
                 <div className="h-16 w-16 relative lg:hidden inline-grid cursor-pointer">
                     <Image src={Instagram}
                         className="object-contain"
+                        onClick={() => router.push('/')}
                         alt="Instagram" />
                 </div>
 
@@ -35,7 +39,8 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <HomeIcon className='h-6 hidden md:inline-flex cursor-pointer hover:scale-110 
+                    <HomeIcon onClick={() => router.push('/')}
+                        className='h-6 hidden md:inline-flex cursor-pointer hover:scale-110 
                                             transition-transform duration-200 ease-out' />
                     {session ? (
                         <>
