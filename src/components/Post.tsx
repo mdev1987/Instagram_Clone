@@ -1,9 +1,16 @@
 import Image from "next/image";
-import { BookmarkIcon, ChatBubbleOvalLeftEllipsisIcon, EllipsisVerticalIcon, FaceSmileIcon, HeartIcon } from '@heroicons/react/24/outline';
+import {
+    BookmarkIcon, ChatBubbleOvalLeftEllipsisIcon,
+    EllipsisVerticalIcon, FaceSmileIcon, HeartIcon
+} from '@heroicons/react/24/outline';
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
-import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import {
+    addDoc, collection, DocumentData, onSnapshot, orderBy, query,
+    QueryDocumentSnapshot, serverTimestamp
+} from "firebase/firestore";
 import { db } from "../../firebase";
+import Moment from "react-moment";
 
 type PostType = {
     id: string;
@@ -15,7 +22,21 @@ type PostType = {
 
 export default function Post({ id, username, profile, image, caption }: PostType) {
     const { data: session } = useSession();
+    const [comments, setComments] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
     const [comment, setComment] = useState<string>('');
+
+    useEffect(() => {
+        const unsubscribe = onSnapshot(query(collection(db, 'posts', id, 'comments'),
+            orderBy('timestamp', 'desc')), {
+            next(snapshot) {
+                setComments(snapshot.docs)
+            },
+            error(error) {
+                console.error(error);
+            },
+        })
+        return () => unsubscribe();
+    }, [db, id])
 
     async function sendComment(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.preventDefault();
@@ -63,6 +84,27 @@ export default function Post({ id, username, profile, image, caption }: PostType
             <p className="p-5 truncate">
                 <span className="font-bold">{username}:</span> {caption}
             </p>
+            {comments.length > 0 && (
+                <div className="mx-10 max-h-24 overflow-y-scroll 
+                scrollbar-none">
+                    {comments.map(comment => (
+                        <div className="flex items-center space-x-2 mb-3">
+                            <img className="h-7 rounded-full object-cover"
+                                src={comment.data().userImage}
+                                alt={comment.data().username} />
+                            <p className="font-semibold text-sm">
+                                {comment.data().username}:
+                            </p>
+                            <p className="flex-1 truncate text-sm">
+                                {comment.data().comment}
+                            </p>
+                            <Moment className="text-sm" fromNow>
+                                {comment.data().timestamp?.toDate()}
+                            </Moment>
+                        </div>))
+                    }
+                </div>
+            )}
             {session &&
                 <form action="" className="flex items-center p-4">
                     <FaceSmileIcon className="h-7" />
