@@ -3,11 +3,12 @@ import {
     BookmarkIcon, ChatBubbleOvalLeftEllipsisIcon,
     EllipsisVerticalIcon, FaceSmileIcon, HeartIcon
 } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartIconFilled } from '@heroicons/react/24/solid'
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import {
-    addDoc, collection, DocumentData, onSnapshot, orderBy, query,
-    QueryDocumentSnapshot, serverTimestamp
+    addDoc, collection, deleteDoc, doc, DocumentData, onSnapshot, orderBy, query,
+    QueryDocumentSnapshot, serverTimestamp, setDoc
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import Moment from "react-moment";
@@ -24,6 +25,8 @@ export default function Post({ id, username, profile, image, caption }: PostType
     const { data: session } = useSession();
     const [comments, setComments] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
     const [comment, setComment] = useState<string>('');
+    const [hasLiked, setHasLiked] = useState<boolean>(false);
+    const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([])
 
     useEffect(() => {
         const unsubscribe = onSnapshot(query(collection(db, 'posts', id, 'comments'),
@@ -53,6 +56,37 @@ export default function Post({ id, username, profile, image, caption }: PostType
             console.error(error);
         }
     }
+
+    useEffect(() => {
+        if (session?.user?.email) {
+            setHasLiked(Boolean(likes.find(like => like.id === session.user?.email)))
+        }
+    }, [likes])
+
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(db, 'posts', id, 'likes'), {
+            next(snapshot) {
+                setLikes(snapshot.docs);
+            },
+            error(error) {
+                console.error(error);
+            }
+        })
+        return () => unsubscribe()
+    }, [db])
+
+    async function likePost() {
+        if (session?.user?.email) {
+            if (hasLiked) {
+                deleteDoc(doc(db, 'posts', id, 'likes', session.user.email));
+            } else {
+                await setDoc(doc(db, 'posts', id, 'likes', session.user.email), {
+                    username: session?.user?.name
+                })
+            }
+        }
+    }
+
     return (
         <div className="bg-white my-7 border rounded-md">
             <div className="flex items-center p-5">
@@ -68,12 +102,17 @@ export default function Post({ id, username, profile, image, caption }: PostType
                 <img src={image}
                     draggable={false}
                     className="object-cover w-full"
-                    width={500} height={500}
+                    width={500} height={280}
                     alt={caption} />
                 {session &&
                     <div className="flex justify-between px-4 pt-4">
                         <div className="flex gap-4">
-                            <HeartIcon className="btn" />
+                            {hasLiked ?
+                                (<HeartIconFilled onClick={likePost}
+                                    className="btn text-red-500" />)
+                                :
+                                (<HeartIcon onClick={likePost}
+                                    className="btn" />)}
                             <ChatBubbleOvalLeftEllipsisIcon className="btn" />
                         </div>
                         <BookmarkIcon className="btn" />
