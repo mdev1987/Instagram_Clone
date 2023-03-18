@@ -5,7 +5,7 @@ export default function ProfileAvatar({ name, onClick }:
         .join('').toUpperCase()
     return (
         <div onClick={onClick}
-            className="h-10 w-10 rounded-full             
+            className="h-10 w-10 truncate rounded-full             
             cursor-pointer flex justify-center 
             items-center text-white bg-purple-300">
             <p>{avatar}</p>

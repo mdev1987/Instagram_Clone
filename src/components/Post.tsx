@@ -121,6 +121,9 @@ export default function Post({ id, username, profile, image, caption }: PostType
             </div>
 
             <p className="p-5 truncate">
+                {likes.length > 0 && (
+                    <p className="font-bold mb-1 text-sm">{likes.length} likes</p>
+                )}
                 <span className="font-bold">{username}:</span> {caption}
             </p>
             {comments.length > 0 && (
